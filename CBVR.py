@@ -35,3 +35,21 @@ def keyframe(name,threshold=0.3):
     cap.release()
     return np.array(keyframes)
 
+def video_distance(dbHist,queryHist,threshold=0.5):
+    '''
+    parameters
+        dbHist: np.array of keyframes Histograms of video from the database
+        queryHist: np.array of keyframes Histograms of query video
+        threshold: float value control the threshold of comparison bet. keyframes
+    computer similarity bet. 2 videos
+    return: similarity percentage
+    '''
+
+    Match = 0
+    for hist in range(len(queryHist)):
+        for h in range(len(dbHist)):
+            dif = np.sum(np.abs(dbHist[h]-queryHist[hist]))/3
+            if dif <= threshold:
+                Match += 1
+                break
+    return Match/len(queryHist)
