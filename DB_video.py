@@ -1,9 +1,8 @@
 from CBVR import *
 from elasticsearch import Elasticsearch
-import pprint as pp
 from os import listdir
 from os.path import isfile, join
-from layout import *
+
 
 es = Elasticsearch()
 
@@ -33,8 +32,9 @@ def get_docs(index, field: str = None):
         return results
     else:
         results = es.search(index=index, size=9999)['hits']['hits']
+        print(results)
         return results
-    # print(results)
+
 
 
 def delete_all_docs(index):
@@ -45,7 +45,7 @@ def delete_all_docs(index):
 def get_files(folder_path):
     only_files = [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
     for i in range(len(only_files)):
-        only_files[i] = "/home/bondok/cbv/" + only_files[i]
+        only_files[i] = folder_path + only_files[i]
     return only_files
 
 
@@ -71,9 +71,6 @@ def get_output(key_frame_ls,query_video_path):
 
 
 # input_docs_video("cbv",video_list)
-results = get_docs("cbv")
-print(get_output(results, "/home/bondok/part.mp4"))
+# results = get_docs("cbv")
+# print(get_output(results, "/home/bondok/part.mp4"))
 
-# Image part
-
-image_list =
