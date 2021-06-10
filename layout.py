@@ -2,9 +2,10 @@ from matplotlib import pyplot as plt
 import cv2
 import math
 import statistics
+import numpy as np
 
 
-def color_layout(image_path):
+def mean_color_layout(image_path):
     # Define the window size
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -12,48 +13,63 @@ def color_layout(image_path):
     window_size_c = math.floor(image.shape[1] / 4)
 
     #  Crop out the window and calculate the histogram
-    i = 0
+    j = 0
     cropped_img = []
     for r in range(0, image.shape[0], window_size_r):
         for c in range(0, image.shape[1], window_size_c):
             window = image[r:r + window_size_r, c:c + window_size_c]
             cropped_img.append(window)
-            # cv2.imshow("cropped" + str(i), window)
-            i = i + 1
+            # cv2.imshow("cropped" + str(j), window)
+            j = j + 1
 
-    histograms = {}
+    meancolor = []
     filename = image_path[image_path.rfind("/") + 1:]
-    for i in range(len(cropped_img)):
-        hist = cv2.calcHist([cropped_img[i]], [0, 1, 2], None, [8, 8, 8], [0, 256, 0, 256, 0, 256])
-        hist = cv2.normalize(hist, hist).flatten()
-        histograms[filename + str(i)] = hist
-        # plt.plot(hist)
-        # plt.xlim([0, 256])
-        # plt.title("hist" + str(i))
-        # plt.show()
-    return histograms
+    for j in range(len(cropped_img)):
+        average = np.mean(cropped_img[j], axis=(0, 1))
+        meancolor.append(average)
+
+    return meancolor
 
 
-def pic_layout_similarity(query_hist_dic, db_hist_dic):
-    i = 0
-    result = {}
-    for q_hist, db_hist in zip(query_hist_dic.values(), db_hist_dic.values()):
-        d = cv2.compareHist(q_hist, db_hist, 0)
-        result["Correlation_" + str(i)] = d
-        i += 1
-    average_Correlation = statistics.mean(result.values())
-    return result, average_Correlation
+def mean_color_layout_similarity(query_color_layout, db_color_layout_list):
+    similar_pic_index = []
+
+    for i in range(len(db_color_layout_list)):
+        for j in range(len(query_color_layout)):
+            if ((int(query_color_layout[j][0]) in range(
+                    int((int(db_color_layout_list[i][j][0])) - (0.7 * int(db_color_layout_list[i][j][0]))),
+                    int((0.7 * int(db_color_layout_list[i][j][0])) + (int(db_color_layout_list[i][j][0])))
+            )) and (
+                    int(query_color_layout[j][1]) in range(
+                int((int(db_color_layout_list[i][j][1])) - (0.7 * int(db_color_layout_list[i][j][1]))),
+                int((0.7 * int(db_color_layout_list[i][j][1])) + (int(db_color_layout_list[i][j][1])))
+            )) and (
+                    int(query_color_layout[j][2]) in range(
+                int((int(db_color_layout_list[i][j][2])) - (0.7 * int(db_color_layout_list[i][j][2]))),
+                int((0.7 * int(db_color_layout_list[i][j][2])) + (int(db_color_layout_list[i][j][2])))
+            ))):
+                similar_pic_index.append(i)
+
+        if similar_pic_index.count(i) > 10:
+            similar_pic_index = list(set(similar_pic_index))
+
+        if len(similar_pic_index) == 5:
+            return similar_pic_index
+
+    return similar_pic_index
 
 
 ####### Testing  #######
-
-# image_path1 = 'D:/college/2nd semester/Multimedia/dataset/training_set/foods/921.jpg'
-# image_path2 = 'D:/college/2nd semester/Multimedia/dataset/training_set/foods/923.jpg'
 #
-# hist1 = color_layout(image_path1)
-# hist2 = color_layout(image_path2)
-# compare, avg = pic_layout_similarity(hist1, hist2)
-#
-# print(compare, "\n", "avg =", avg, "\n", compare.keys())
+paths = ['D:/college/2nd semester/Multimedia/dataset/training_set/bus/313.jpg',
+         'D:/college/2nd semester/Multimedia/dataset/training_set/bus/315.jpg',
+         'D:/college/2nd semester/Multimedia/dataset/training_set/bus/316.jpg',
+         'D:/college/2nd semester/Multimedia/dataset/training_set/bus/317.jpg']
 
+avg_list = []
+for i in range(0, 3):
+    avg_list.append(mean_color_layout(paths[i]))
+print(avg_list[0], "\n", avg_list[0][15], "\n", len(avg_list))
+avg = mean_color_layout_similarity(mean_color_layout(paths[3]), avg_list)
+print(avg_list, "\n", avg)
 cv2.waitKey(0)
