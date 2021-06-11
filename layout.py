@@ -3,6 +3,15 @@ import cv2
 import math
 import statistics
 import numpy as np
+from os import listdir
+from os.path import isfile, join
+
+
+def get_files(folder_path):
+    only_files = [f for f in listdir(folder_path) if isfile(join(folder_path, f))]
+    for i in range(len(only_files)):
+        only_files[i] = folder_path + only_files[i]
+    return only_files
 
 
 def mean_color_layout(image_path):
@@ -32,6 +41,7 @@ def mean_color_layout(image_path):
 
 
 def mean_color_layout_similarity(query_color_layout, db_color_layout_list):
+    similar_parts = []
     similar_pic_index = []
 
     for i in range(len(db_color_layout_list)):
@@ -48,10 +58,11 @@ def mean_color_layout_similarity(query_color_layout, db_color_layout_list):
                 int((int(db_color_layout_list[i][j][2])) - (0.7 * int(db_color_layout_list[i][j][2]))),
                 int((0.7 * int(db_color_layout_list[i][j][2])) + (int(db_color_layout_list[i][j][2])))
             ))):
-                similar_pic_index.append(i)
+                similar_parts.append(i)
 
-        if similar_pic_index.count(i) > 10:
-            similar_pic_index = list(set(similar_pic_index))
+        if similar_parts.count(i) == 16:
+            # similar_pic_index = list(set(similar_pic_index))
+            similar_pic_index.append(i)
 
         if len(similar_pic_index) == 5:
             return similar_pic_index
@@ -59,17 +70,12 @@ def mean_color_layout_similarity(query_color_layout, db_color_layout_list):
     return similar_pic_index
 
 
-####### Testing  #######
-#
-paths = ['D:/college/2nd semester/Multimedia/dataset/training_set/bus/313.jpg',
-         'D:/college/2nd semester/Multimedia/dataset/training_set/bus/315.jpg',
-         'D:/college/2nd semester/Multimedia/dataset/training_set/bus/316.jpg',
-         'D:/college/2nd semester/Multimedia/dataset/training_set/bus/317.jpg']
+####testing###
 
-avg_list = []
-for i in range(0, 3):
-    avg_list.append(mean_color_layout(paths[i]))
-print(avg_list[0], "\n", avg_list[0][15], "\n", len(avg_list))
-avg = mean_color_layout_similarity(mean_color_layout(paths[3]), avg_list)
-print(avg_list, "\n", avg)
-cv2.waitKey(0)
+# paths = get_files('D:/college/2nd semester/Multimedia/all dataset/')
+# data = []
+# for i in range(len(paths)):
+#     data.append(mean_color_layout(paths[i]))
+# avg = mean_color_layout_similarity(mean_color_layout('D:/college/2nd semester/Multimedia/all dataset/200.jpg'), data)
+# print(avg)
+# cv2.waitKey(0)
