@@ -60,7 +60,7 @@ def mean_color_layout_similarity(query_color_layout, db_color_layout_list):
             ))):
                 similar_parts.append(i)
 
-        if similar_parts.count(i) == 16:
+        if similar_parts.count(i) == 14:
             # similar_pic_index = list(set(similar_pic_index))
             similar_pic_index.append(i)
 

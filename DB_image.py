@@ -15,69 +15,69 @@ def input_docs_image(index: str, image_path: list):
                  id=image_list[i])
 
 def data_base():
-    return es.search(index="cbi", size=900)["hits"]["hits"]
+    data = []
+    for i in range(800):
+        querybody={
+        "query": {
+            "terms": {
+                "_id": ["/home/bondok/Downloads/archive/dataset/" + str(200+i) + ".jpg"]
+            }
+        }
+        }
+        data.append(es.search(index="cbi",body=querybody, size=900)["hits"]["hits"])
+
+    return data
 
 
 # delete_index("cbi")
 # input_docs_image("cbi", image_list)
 # get_docs("cbi")
 
-data = data_base()
 
 def get_mean_color(query_image, data):
     result_temp = []
     for i in range(len(data)):
-        result_temp.append([data[i]["_source"]["mean_color"], data[i]["_id"]])
-        data[i] = data[i]["_source"]["mean_color"]
+        result_temp.append([data[i][0]["_source"]["mean_color"], data[i][0]["_id"]])
+        data[i] = data[i][0]["_source"]["mean_color"]
 
     # pp.pprint(result)
     res = similarity_mean_color(query_image, data)
     for i in range(len(res)):
         res[i] = result_temp[i][1]
-    # print(res)
-    return res
-
-
-def get_histogram(query_image):
-    result_temp = []
-    for i in range(len(data)):
-        result_temp.append([data[i]["_source"]["histogram"], data[i]["_id"]])
-        data[i] = np.array(data[i]["_source"]["histogram"])
-
-    # pp.pprint(result)
-    x = histogram_calc(query_image)
-    print(x)
-    temp = compare(800,x , data)
-    res = retrival(temp,5,200,1000)
-    for i in range(len(res)):
-        res[i] = "/home/bondok/Downloads/archive/dataset/" + str(res[i]) + ".jpg"
     print(res)
     return res
 
-# images_1 = get_mean_color("/home/bondok/Downloads/archive/dataset/200.jpg", data)
-get_histogram("/home/bondok/Downloads/archive/dataset/200.jpg")
+
+def get_histogram(query_image, data):
+    result_temp = []
+    for i in range(len(data)):
+        result_temp.append([data[i][0]["_source"]["histogram"], data[i][0]["_id"]])
+        data[i] = np.array(data[i][0]["_source"]["histogram"])
+    # pp.pprint(result)
+    temp = compare(800, histogram_calc(query_image), data)
+    res = retrival(temp, 5, 0, 800)
+    for i in range(len(res)):
+        res[i] = result_temp[res[i]][1]
+    print(res)
+    return res
+
+images_1 = get_mean_color("/home/bondok/Downloads/archive/dataset/201.jpg", data_base())
+images_2 = get_histogram("/home/bondok/Downloads/archive/dataset/201.jpg", data_base())
 
 def get_layout(query_image, data):
     result_temp = []
     image = []
     for i in range(len(data)):
-        result_temp.append([data[i]["_source"]["layout"], data[i]["_id"]])
-        data[i] = data[i]["_source"]["layout"]
-
+        result_temp.append([data[i][0]["_source"]["layout"], data[i][0]["_id"]])
+        data[i] = data[i][0]["_source"]["layout"]
     # pp.pprint(result)
     res = mean_color_layout_similarity(mean_color_layout(query_image), data)
     for i in range(len(res)):
         res[i] = result_temp[i][1]
-    for i in range(5):
-        image.append(cv2.imread(res[i]))
-
-    # cv2.imshow("a",image[0])
-    # cv2.imshow("b",image[1])
-    # cv2.imshow("c",image[2])
-    # cv2.imshow("d",image[3])
-    # cv2.imshow("e",image[4])
-    # cv2.waitKey(0)
+    print(res)
 
 
 
-# images_2 = get_layout("/home/bondok/Downloads/archive/dataset/200.jpg", data)
+
+
+images_3 = get_layout("/home/bondok/Downloads/archive/dataset/201.jpg", data_base())

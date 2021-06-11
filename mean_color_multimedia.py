@@ -52,83 +52,83 @@ def similarity_mean_color(query_img_path,list_average):
 # In[77]:
 
 
-listt=[*range(200,1000)]
-list_cum=[] ######## list have all mean color of all images
-
-for i in range(len(listt)):
-        arr=mean_color('C:/Users/AG/Downloads/archive/images/'+str(listt[i])+'.jpg')
-        list_cum.append(arr)  
-
-
-# In[78]:
-
-
-#################### Testing ############################################
-
-
-
-######## code bygrb fekrt l similarity bdelo sora 799 w yrg3 l 5 swar ely 4abho ###############
-
-cum=similarity_mean_color('C:/Users/AG/Downloads/archive/images/799.jpg',list_cum)
-list1=[]
-for i in range(len(cum)):
-    a=cv2.imread('C:/Users/AG/Downloads/archive/images/'+str(cum[i]+200)+'.jpg')
-    list1.append(a)
-    
-
-
-# In[79]:
-
-
-####################### code bydek l 5 swar ely 4abhk ###########################
-fig = plt.figure(figsize=(10, 7))
-  
-# setting values to rows and column variables 
-rows = 3
-columns = 3
-  
-
-
-  
-# Adds a subplot at the 1st position
-fig.add_subplot(rows, columns, 1)
-  
-# showing image
-plt.imshow(list1[0])
-plt.axis('off')
-plt.title("First")
-  
-# Adds a subplot at the 2nd position
-fig.add_subplot(rows, columns, 2)
-  
-# showing image
-plt.imshow(list1[1])
-plt.axis('off')
-plt.title("Second")
-  
-# Adds a subplot at the 3rd position
-fig.add_subplot(rows, columns, 3)
-  
-# showing image
-plt.imshow(list1[2])
-plt.axis('off')
-plt.title("Third")
-  
-# Adds a subplot at the 4th position
-fig.add_subplot(rows, columns, 4)
-  
-# showing image
-plt.imshow(list1[3])
-plt.axis('off')
-plt.title("Fourth")
-
-# Adds a subplot at the 5th position
-fig.add_subplot(rows, columns, 5)
-  
-# showing image
-plt.imshow(list1[4])
-plt.axis('off')
-plt.title("Fifth")
+# listt=[*range(200,1000)]
+# list_cum=[] ######## list have all mean color of all images
+#
+# for i in range(len(listt)):
+#         arr=mean_color('C:/Users/AG/Downloads/archive/images/'+str(listt[i])+'.jpg')
+#         list_cum.append(arr)
+#
+#
+# # In[78]:
+#
+#
+# #################### Testing ############################################
+#
+#
+#
+# ######## code bygrb fekrt l similarity bdelo sora 799 w yrg3 l 5 swar ely 4abho ###############
+#
+# cum=similarity_mean_color('C:/Users/AG/Downloads/archive/images/799.jpg',list_cum)
+# list1=[]
+# for i in range(len(cum)):
+#     a=cv2.imread('C:/Users/AG/Downloads/archive/images/'+str(cum[i]+200)+'.jpg')
+#     list1.append(a)
+#
+#
+#
+# # In[79]:
+#
+#
+# ####################### code bydek l 5 swar ely 4abhk ###########################
+# fig = plt.figure(figsize=(10, 7))
+#
+# # setting values to rows and column variables
+# rows = 3
+# columns = 3
+#
+#
+#
+#
+# # Adds a subplot at the 1st position
+# fig.add_subplot(rows, columns, 1)
+#
+# # showing image
+# plt.imshow(list1[0])
+# plt.axis('off')
+# plt.title("First")
+#
+# # Adds a subplot at the 2nd position
+# fig.add_subplot(rows, columns, 2)
+#
+# # showing image
+# plt.imshow(list1[1])
+# plt.axis('off')
+# plt.title("Second")
+#
+# # Adds a subplot at the 3rd position
+# fig.add_subplot(rows, columns, 3)
+#
+# # showing image
+# plt.imshow(list1[2])
+# plt.axis('off')
+# plt.title("Third")
+#
+# # Adds a subplot at the 4th position
+# fig.add_subplot(rows, columns, 4)
+#
+# # showing image
+# plt.imshow(list1[3])
+# plt.axis('off')
+# plt.title("Fourth")
+#
+# # Adds a subplot at the 5th position
+# fig.add_subplot(rows, columns, 5)
+#
+# # showing image
+# plt.imshow(list1[4])
+# plt.axis('off')
+# plt.title("Fifth")
 
 
 # In[ ]:
