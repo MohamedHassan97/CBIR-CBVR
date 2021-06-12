@@ -136,11 +136,11 @@ class Ui_Form(object):
         self.comboBox_2.setItemText(2, _translate("Form", "average"))
         self.label_2.setText(_translate("Form", "Image Path"))
         self.pushButton_2_1.setText(_translate("Form", "Show image"))
-        self.label_3.setText(_translate("Form", "TextLabel"))
-        self.label_4.setText(_translate("Form", "TextLabel"))
-        self.label_7.setText(_translate("Form", "TextLabel"))
-        self.label_5.setText(_translate("Form", "TextLabel"))
-        self.label_6.setText(_translate("Form", "TextLabel"))
+        self.label_3.setText(_translate("Form", " "))
+        self.label_4.setText(_translate("Form", " "))
+        self.label_7.setText(_translate("Form", " "))
+        self.label_5.setText(_translate("Form", " "))
+        self.label_6.setText(_translate("Form", " "))
         self.pushButton_2_2.setText(_translate("Form", "submit"))
 
 
