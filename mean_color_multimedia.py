@@ -7,6 +7,17 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import cv2
+import os, sys
+ci_build_and_not_headless = False
+try:
+    from cv2.version import ci_build, headless
+    ci_and_not_headless = ci_build and not headless
+except:
+    pass
+if sys.platform.startswith("linux") and ci_and_not_headless:
+    os.environ.pop("QT_QPA_PLATFORM_PLUGIN_PATH")
+if sys.platform.startswith("linux") and ci_and_not_headless:
+    os.environ.pop("QT_QPA_FONTDIR")
 
 
 # In[76]:
@@ -33,10 +44,8 @@ def similarity_mean_color(query_img_path,list_average):
     cum=[]
     
     for i in range(len(list_average)):
-        if(( int(avg_query[0,0]) in range(int((int(list_average[i][0][0]))-(0.7*int(list_average[i][0][0]))), int((0.7*int(list_average[i][0][0]))+(int(list_average[i][0][0])))
-           )) and ( int(avg_query[0,1]) in range(int((int(list_average[i][0][1]))-(0.7*int(list_average[i][0][1]))), int((0.7*int(list_average[i][0][1]))+(int(list_average[i][0][1])))
-           )) and ( int(avg_query[0,2]) in range(int((int(list_average[i][0][2]))-(0.7*int(list_average[i][0][2]))), int((0.7*int(list_average[i][0][2]))+(int(list_average[i][0][2])))
-           ))   ):
+        if(( int(avg_query[0,0]) in range(int(0.95*int(list_average[i][0][0])),int((int(list_average[i][0][0]))+int(0.95*int(list_average[i][0][0])))))
+            and ( int(avg_query[0,1]) in range(int(0.95*int(list_average[i][0][1])),int((int(list_average[i][0][1]))+int(0.95*int(list_average[i][0][1]))))) and ( int(avg_query[0,2]) in range(int(0.95*int(list_average[i][0][2])),int((int(list_average[i][0][2]))+int(0.95*int(list_average[i][0][2])))))):
             cum.append(i)
             
              

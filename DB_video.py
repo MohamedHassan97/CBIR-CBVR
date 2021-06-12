@@ -32,7 +32,7 @@ def get_docs(index, field: str = None):
         return results
     else:
         results = es.search(index=index, size=9999)['hits']['hits']
-        print(results)
+        # print(results)
         return results
 
 
@@ -61,16 +61,14 @@ def input_docs_video(index: str, video_path):
         es.index(index=index, body={"keyframes": key_frames}, id=video_list[i])
 
 
-def get_output(key_frame_ls,query_video_path):
+def get_output(key_frame_ls, query_video_path):
     ls=[]
     for i in key_frame_ls:
-        ls.append((i["_id"] , video_distance(np.array(i["_source"]["keyframes"]),np.array(keyframe(query_video_path, 0.3)) , threshold=0.5)))
-    for i in ls:
-        if i[1] >= 0.7:
-            return i[0]
+        ls.append((i["_id"], video_distance(np.array(i["_source"]["keyframes"]),np.array(keyframe(query_video_path, 0.3)), threshold=0.5)))
+    return ls
 
 
 # input_docs_video("cbv",video_list)
 # results = get_docs("cbv")
-# print(get_output(results, "/home/bondok/part.mp4"))
+# get_output(results, "/home/bondok/part.mp4")
 
